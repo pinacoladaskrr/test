@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Congrats, you scanned it</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖕</text></svg>">
+<style>
+  :root {
+    --bg: #ffd23f;
+    --ink: #1a1a1a;
+    --pop: #ff3b6b;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Arial Black", "Helvetica Neue", Impact, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+    overflow-x: hidden;
+  }
+  .finger {
+    font-size: clamp(140px, 42vw, 300px);
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    animation: wiggle 1.6s ease-in-out infinite;
+    transform-origin: 50% 90%;
+  }
+  .finger img {
+    display: block;
+    width: clamp(140px, 42vw, 300px);
+    height: auto;
+    max-width: 100%;
+  }
+  .finger:active { transform: scale(1.25) rotate(-8deg); animation: none; }
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-6deg); }
+    50%      { transform: rotate(6deg); }
+  }
+  h1 {
+    font-size: clamp(30px, 8vw, 64px);
+    line-height: 1.05;
+    margin: 12px 0 8px;
+    max-width: 14ch;
+    text-wrap: balance;
+  }
+  #msg {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    font-size: clamp(18px, 4.5vw, 26px);
+    min-height: 2.6em;
+    max-width: 30ch;
+    margin: 0 0 20px;
+  }
+  button {
+    font: inherit;
+    font-size: 20px;
+    background: var(--ink);
+    color: var(--bg);
+    border: 0;
+    border-radius: 999px;
+    padding: 16px 32px;
+    box-shadow: 0 6px 0 var(--pop);
+    cursor: pointer;
+    transition: transform .08s, box-shadow .08s;
+  }
+  button:active { transform: translateY(6px); box-shadow: 0 0 0 var(--pop); }
+  button:focus-visible { outline: 4px solid var(--pop); outline-offset: 4px; }
+  #count {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-weight: 700;
+    margin-top: 22px;
+    font-size: 15px;
+    opacity: .7;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .finger { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="finger" id="finger" role="img" aria-label="Middle finger"><img src="finger.jpg" alt="" onerror="this.replaceWith(document.createTextNode('🖕'))"></div>
+
+  <h1>You really scanned a QR code for this?</h1>
+  <p id="msg">Yep. That's it. That's the whole page.</p>
+
+  <button id="btn">Tap for more</button>
+  <div id="count"></div>
+
+<script>
+  const lines = [
+    "Bold of you to scan random QR codes.",
+    "Your phone battery is now 0.0001% lower. You're welcome.",
+    "This page is 100% organic, gluten-free, and rude.",
+    "Somewhere, a cybersecurity expert just sighed.",
+    "Still here? Get a hobby.",
+    "You could have scanned a menu. You chose chaos.",
+    "This is the most honest QR code you'll scan today.",
+    "Okay, okay. Have a great day. 🖕",
+    "Plot twist: there is no more content.",
+    "Fine, you win. Here's a virtual high five. 🖐️ ...nope, back to the finger."
+  ];
+
+  const msg = document.getElementById("msg");
+  const count = document.getElementById("count");
+  const btn = document.getElementById("btn");
+  const finger = document.getElementById("finger");
+  let taps = 0;
+
+  function next() {
+    taps++;
+    msg.textContent = lines[(taps - 1) % lines.length];
+    count.textContent = taps === 1
+      ? "1 tap. Just getting started."
+      : taps + " taps. Impressive dedication.";
+    if (navigator.vibrate) navigator.vibrate(30);
+  }
+
+  btn.addEventListener("click", next);
+  finger.addEventListener("click", next);
+</script>
+</body>
+</html>
